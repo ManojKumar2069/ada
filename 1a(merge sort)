@@ -1,0 +1,64 @@
+#include <stdio.h>
+#define max 10
+
+int a[max];
+
+void merge(int ar[max], int low, int mid, int high) {
+    int b[max];
+    int i = low, j = mid + 1, k = low;
+
+    while (i <= mid && j <= high) {
+        if (ar[i] <= ar[j]) {
+            b[k++] = ar[i++];
+        } else {
+            b[k++] = ar[j++];
+        }
+    }
+    while (i <= mid) {
+        b[k++] = ar[i++];
+    }
+    while (j <= high) {
+        b[k++] = ar[j++];
+    }
+    for (i = low; i <= high; i++) {
+        ar[i] = b[i];
+    }
+}
+
+void mergeSort(int ar[max], int low, int high) {
+    if (low < high) {
+        int mid = (low + high) / 2;
+        mergeSort(ar, low, mid);
+        mergeSort(ar, mid + 1, high);
+        merge(ar, low, mid, high);
+    }
+}
+
+void display(int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", a[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int n;
+    printf("Enter how many elements: ");
+    scanf("%d", &n);
+
+    if (n > max) {
+        printf("\nArray size exceeds limit (%d)\n", max);
+        return 0;
+    }
+
+    for (int i = 0; i < n; i++) {
+        printf("Enter element %d: ", i);
+        scanf("%d", &a[i]);
+    }
+
+    mergeSort(a, 0, n - 1);
+    printf("Sorted array: ");
+    display(n);
+
+    return 0;
+}

@@ -1,0 +1,50 @@
+#include <stdio.h>
+void swap(int *a,int *b)
+{
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+int partition(int arr[],int low,int high)
+{
+    int p=arr[low];
+    int i=low+1;
+    int j=high;
+    while(i<=j)
+    {
+        while(arr[i]<=p && i<=high)
+        {
+            i++;
+
+        }
+        while(arr[j]>p)
+        {
+            j--;
+        }
+        if(i<j)
+        {
+            swap(&arr[i],&arr[j]);
+        }
+    }
+    swap(&arr[low],&arr[j]);
+    return j;
+}
+void quickSort(int arr[],int low,int high)
+{
+    if(low<high)
+    {
+        int p=partition(arr,low,high);
+        quickSort(arr,low,p-1);
+        quickSort(arr,p+1,high);
+    }
+}
+int main()
+{
+    int arr[]={10,5,2,6,1,20,8,33,4,77};
+        int n=10;
+    quickSort(arr,0,n-1);
+    for(int i=0;i<=n-1;i++)
+    {
+        printf("%d ",arr[i]);
+    }
+}

@@ -1,0 +1,152 @@
+##Quick Sort
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+void swap(int *a,int *b)
+{
+    int t=*a;
+    *a=*b;
+    *b=t;
+}
+
+int part(int arr[],int low,int high)
+{
+    int pivot=arr[low];
+    int i=low+1;
+    int j=high;
+    while(i<=j)
+    {
+        while(arr[i]<=pivot && i<=j)
+        {
+            i++;
+        }
+        while(arr[j]>pivot)
+        {
+            j--;
+        }
+        if(i<j)
+        {
+            swap(&arr[i],&arr[j]);
+        }
+    }
+    swap(&arr[low],&arr[j]);
+    return j;
+}
+
+void quick(int arr[],int low,int high)
+{
+    if(low < high)
+    {
+        int p=part(arr,low,high);
+        quick(arr,low,p-1);
+        quick(arr,p+1,high);
+    }
+}
+
+
+
+int main()
+{
+    clock_t end;
+    clock_t st;
+    int n;
+    printf("Enter the value");
+    scanf("%d",&n);
+    int a[n];
+    for(int i=0;i<n;i++)
+    {
+        a[i]=rand();
+    }
+    printf("The array before soring");
+    for(int i=0;i<n;i++)
+    {
+        printf("%d ",a[i]);
+    }
+    st=clock();
+    quick(a,0,n-1);
+    end=clock();
+    printf("\n\n\n");
+    float d;
+    d=(float)(end-st)/CLOCKS_PER_SEC;
+    printf("\n The timer is %f sec",d);
+}
+
+
+
+
+
+
+#merge Sort
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void merge(int ar[], int low, int mid, int high) {
+    int b[high + 1];
+    int i = low, j = mid + 1, k = low;
+
+    while (i <= mid && j <= high) {
+        if (ar[i] <= ar[j]) {
+            b[k++] = ar[i++];
+        } else {
+            b[k++] = ar[j++];
+        }
+    }
+    while (i <= mid) {
+        b[k++] = ar[i++];
+    }
+    while (j <= high) {
+        b[k++] = ar[j++];
+    }
+    for (i = low; i <= high; i++) {
+        ar[i] = b[i];
+    }
+}
+
+void mergeSort(int ar[], int low, int high) {
+    if (low < high) {
+        int mid = (low + high) / 2;
+        mergeSort(ar, low, mid);
+        mergeSort(ar, mid + 1, high);
+        merge(ar, low, mid, high);
+    }
+}
+
+void display(int a[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", a[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int n;
+    clock_t st, end;
+    double d;
+
+    printf("Enter how many elements: ");
+    scanf("%d", &n);
+
+    int a[n];
+    for (int i = 0; i < n; i++) {
+        a[i] = rand();
+    }
+
+    printf("The starting array:\n");
+    display(a, n);
+
+    st = clock();
+    mergeSort(a, 0, n - 1);
+    end = clock();
+
+    printf("\nSorted array:\n");
+    display(a, n);
+
+    d = (double)(end - st) / CLOCKS_PER_SEC;
+    printf("\nThe timer is %f sec\n", d);
+
+    return 0;
+}
+
